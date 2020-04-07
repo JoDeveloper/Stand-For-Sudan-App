@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stand_for_sudan/donations/donations.dart';
 
+import 'donations/donations.dart';
 import 'donations/donations_provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -82,7 +82,7 @@ class HomePage extends StatelessWidget {
                             ],
                           )
                         : CircularProgressIndicator(
-                            strokeWidth: 3.0,
+                            strokeWidth: 2.0,
                           );
                   }),
             ],

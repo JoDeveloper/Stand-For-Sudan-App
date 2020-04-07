@@ -9,8 +9,8 @@ class DonationsService {
   Future<Donations> getDonations() async {
     //Send Get Request
     var response = await http.get('https://sfs-api.obay-dev.com/api/donations');
-    print("getDonations\n");
-    print(jsonDecode(response.body)['donations_total']);
+    // print("getDonations\n");
+    // print(jsonDecode(response.body)['donations_total']);
     return Donations.fromJson(jsonDecode(response.body));
   }
 
@@ -18,7 +18,9 @@ class DonationsService {
     //Send Get Request
     var response = await http.get('https://sfs-api.obay-dev.com/api/donations');
     var json = jsonDecode(response.body);
-    var jsonResults = json['results'] as List;
-    return jsonResults.map((place) => DonationList.fromJson(place)).toList();
+    var jsonResults = json['donations'] as List;
+    return jsonResults
+        .map((donations) => DonationList.fromJson(donations))
+        .toList();
   }
 }
