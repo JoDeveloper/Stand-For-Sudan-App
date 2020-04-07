@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:provider/provider.dart';
+import 'package:stand_for_sudan/donations/donations.dart';
 
 import 'donations/donations_provider.dart';
 
@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
             width: 50.0,
           ),
         ),
-        title: Text("Stand For Sudan"),
+        title: Text("القوّمة للسودان"),
         centerTitle: true,
       ),
       body: Column(
@@ -32,46 +32,63 @@ class HomePage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
             ),
           ),
-          Expanded(
+          SingleChildScrollView(
               child: Column(
             children: <Widget>[
-              StreamBuilder<dynamic>(
+              StreamBuilder<Donations>(
                   stream: bloc.donations,
                   builder: (context, snapshot) {
-                    print(snapshot.data);
                     return snapshot.hasData
-                        ? Card(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                const ListTile(
-                                  leading: Icon(Icons.money_off, size: 50),
-                                  title: Text('Heart Shaker'),
-                                  subtitle: Text('TWICE'),
+                        ? Column(
+                            children: <Widget>[
+                              Card(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    ListTile(
+                                      leading: Icon(Icons.money_off, size: 50),
+                                      title: Text("Total"),
+                                      subtitle: Text('${snapshot.data.total}'),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              Card(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    ListTile(
+                                      leading: Icon(Icons.money_off, size: 50),
+                                      title: Text("Last Donation"),
+                                      subtitle:
+                                          Text('${snapshot.data.lastDonation}'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Card(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    ListTile(
+                                      leading: Icon(Icons.money_off, size: 50),
+                                      title: Text("Today Total Donators"),
+                                      subtitle: Text(
+                                          '${snapshot.data.todayTotalDonators}'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           )
-                        : CircularProgressIndicator();
+                        : CircularProgressIndicator(
+                            strokeWidth: 3.0,
+                          );
                   }),
             ],
           ))
         ],
       ),
     );
-  }
-
-  getMoney(double money) {
-    return new FlutterMoneyFormatter(
-            amount: money,
-            settings: MoneyFormatterSettings(
-                symbol: 'SDG',
-                thousandSeparator: '.',
-                decimalSeparator: ',',
-                symbolAndNumberSeparator: ' ',
-                fractionDigits: 3,
-                compactFormatType: CompactFormatType.short))
-        .output
-        .toString();
   }
 }

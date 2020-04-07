@@ -1,30 +1,12 @@
-import 'dart:convert';
-
 class DonationList {
-  final double totalAmount;
-  final String donatedAt;
+  double totalAmount;
+  String donatedAt;
   DonationList({
     this.totalAmount,
     this.donatedAt,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'total_amount': totalAmount,
-      'created_at': donatedAt,
-    };
-  }
-
-  static DonationList fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
-    return DonationList(
-      totalAmount: map['total_amount'],
-      donatedAt: map['created_at'],
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  static DonationList fromJson(String source) => fromMap(json.decode(source));
+  DonationList.fromJson(Map<dynamic, dynamic> parsedJson)
+      : totalAmount = double.parse(parsedJson['total_amount']),
+        donatedAt = parsedJson['created_at'];
 }
