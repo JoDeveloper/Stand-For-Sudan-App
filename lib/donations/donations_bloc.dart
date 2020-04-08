@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:rxdart/rxdart.dart';
 
 import '../services/DonationsService.dart';
@@ -21,14 +23,11 @@ class DonationBloc {
   }
 
   DonationBloc() {
-    this.loadDonations();
+    Timer.periodic(Duration(seconds: 5), (Timer t) => this.loadDonations());
   }
 
   Future<void> loadDonations() async {
     changeDonations(await _donationService.getDonations());
     changeDonationsList(await _donationService.getDonationsList());
-    print("loadDonations");
-    print(_donations.value);
-    print(_donationsList.value);
   }
 }

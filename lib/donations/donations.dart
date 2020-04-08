@@ -1,5 +1,5 @@
 class Donations {
-  final int total;
+  final dynamic total;
   final int lastDonation;
   final int todayTotalDonators;
 
