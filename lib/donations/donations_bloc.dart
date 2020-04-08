@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
 
+import '../model/donation_list.dart';
+import '../model/donations.dart';
 import '../services/DonationsService.dart';
-import 'donation_list.dart';
-import 'donations.dart';
+
 
 class DonationBloc {
   final _donations = BehaviorSubject<Donations>();
@@ -29,5 +30,6 @@ class DonationBloc {
   Future<void> loadDonations() async {
     changeDonations(await _donationService.getDonations());
     changeDonationsList(await _donationService.getDonationsList());
+    print("1");
   }
 }

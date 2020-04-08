@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'donations/donation_list.dart';
-import 'donations/donations.dart';
 import 'donations/donations_provider.dart';
+import 'model/donation_list.dart';
+import 'model/donations.dart';
 
 class HomePage extends StatelessWidget {
   final formatter = new NumberFormat("#,###");
+
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<DonationProvider>(context).donation;
@@ -25,6 +26,16 @@ class HomePage extends StatelessWidget {
         ),
         title: Text("القوّمة للسودان"),
         centerTitle: true,
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Image.asset(
+              "images/color-t.png",
+              height: 25.0,
+              width: 25.0,
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[

@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../donations/donation_list.dart';
-import '../donations/donations.dart';
+import '../model/donation_list.dart';
+import '../model/donations.dart';
+
+
 
 class DonationsService {
   Future<Donations> getDonations() async {
