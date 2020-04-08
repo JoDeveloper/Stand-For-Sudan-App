@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -54,8 +55,11 @@ class HomePage extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ListTile(
-                                    trailing:
-                                        Icon(Icons.attach_money, size: 25),
+                                    trailing: Icon(
+                                      Icons.local_atm,
+                                      size: 25,
+                                      color: Colors.green,
+                                    ),
                                     title: Align(
                                       child: Text("جملة التبرعات   "),
                                       alignment: Alignment.topRight,
@@ -63,8 +67,10 @@ class HomePage extends StatelessWidget {
                                     subtitle: Align(
                                       child: Text(
                                           '   ${formatter.format(snapshot.data.total)}   ',
-                                          style:
-                                              TextStyle(color: Colors.green)),
+                                          style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.bold)),
                                       alignment: Alignment.bottomRight,
                                     ),
                                   ),
@@ -77,15 +83,18 @@ class HomePage extends StatelessWidget {
                                 children: <Widget>[
                                   ListTile(
                                     trailing:
-                                        Icon(Icons.attach_money, size: 25),
+                                        Icon(Icons.monetization_on, size: 25),
                                     title: Align(
-                                      child: Text("عدد التبرعات   "),
+                                      child: Text("عدد التبرعات اليوم   "),
                                       alignment: Alignment.topRight,
                                     ),
                                     subtitle: Align(
                                       child: Text(
                                         '${snapshot.data.todayTotalDonators}   ',
-                                        style: TextStyle(color: Colors.green),
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       alignment: Alignment.bottomRight,
                                     ),
@@ -98,8 +107,7 @@ class HomePage extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ListTile(
-                                    trailing:
-                                        Icon(Icons.attach_money, size: 25),
+                                    trailing: Icon(Icons.person_add, size: 25),
                                     title: Align(
                                       child: Text("اخر تبرع"),
                                       alignment: Alignment.topRight,
@@ -107,7 +115,10 @@ class HomePage extends StatelessWidget {
                                     subtitle: Align(
                                       child: Text(
                                         '${snapshot.data.lastDonation}   ',
-                                        style: TextStyle(color: Colors.green),
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       alignment: Alignment.bottomRight,
                                     ),
@@ -117,7 +128,7 @@ class HomePage extends StatelessWidget {
                             ),
                             Center(
                                 child: Container(
-                              margin: const EdgeInsets.only(top: 85.0),
+                              margin: const EdgeInsets.only(top: 60.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -130,13 +141,32 @@ class HomePage extends StatelessWidget {
                                   InkWell(
                                     child: Text(
                                       "  Joseph ",
-                                      style: TextStyle(color: Colors.lightBlue),
+                                      style: TextStyle(
+                                        color: Colors.lightBlue,
+                                      ),
                                     ),
                                     onTap: _launchURL,
                                   ),
                                 ],
                               ),
                             )),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text("Freedom ",
+                                      style: TextStyle(color: Colors.red)),
+                                  Text("Peace ",
+                                      style: TextStyle(color: Colors.green)),
+                                  Text("Justice ",
+                                      style: TextStyle(color: Colors.black)),
+                                  Text("✌️"),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       )
