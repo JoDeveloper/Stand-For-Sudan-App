@@ -6,7 +6,6 @@ import '../model/donation_list.dart';
 import '../model/donations.dart';
 import '../services/DonationsService.dart';
 
-
 class DonationBloc {
   final _donations = BehaviorSubject<Donations>();
   final _donationsList = BehaviorSubject<List<DonationList>>();
@@ -24,12 +23,12 @@ class DonationBloc {
   }
 
   DonationBloc() {
-    Timer.periodic(Duration(seconds: 5), (Timer t) => this.loadDonations());
+    Timer.periodic(Duration(seconds: 15), (Timer t) => this.loadDonations());
   }
 
   Future<void> loadDonations() async {
     changeDonations(await _donationService.getDonations());
-    changeDonationsList(await _donationService.getDonationsList());
+    // changeDonationsList(await _donationService.getDonationsList());
     print("1");
   }
 }
