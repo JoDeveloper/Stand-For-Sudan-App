@@ -5,14 +5,11 @@ import 'package:http/http.dart' as http;
 import '../model/donation_list.dart';
 import '../model/donations.dart';
 
-
-
 class DonationsService {
   Future<Donations> getDonations() async {
     //Send Get Request
     var response = await http.get('https://sfs-api.obay-dev.com/api/donations');
-    // print("getDonations\n");
-    // print(jsonDecode(response.body)['donations_total']);
+
     return Donations.fromJson(jsonDecode(response.body));
   }
 
