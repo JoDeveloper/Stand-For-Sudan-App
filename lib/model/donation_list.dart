@@ -1,5 +1,5 @@
 class DonationList {
-  double totalAmount;
+  dynamic totalAmount;
   String donatedAt;
   DonationList({
     this.totalAmount,
@@ -7,6 +7,6 @@ class DonationList {
   });
 
   DonationList.fromJson(Map<dynamic, dynamic> parsedJson)
-      : totalAmount = double.parse(parsedJson['total_amount']),
+      : totalAmount = parsedJson['total_amount'],
         donatedAt = parsedJson['created_at'];
 }
