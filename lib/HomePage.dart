@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -171,20 +172,19 @@ class HomePage extends StatelessWidget {
                       )
                     : Center(child: CircularProgressIndicator());
               }),
-          // StreamBuilder<List<DonationList>>(
-          //     stream: bloc.donationsList,
-          //     builder: (context, snapshot) {
-          //       if (snapshot.hasData) {
-          //         for (var i = 0; i < snapshot.data.length; i++) {
-          //           ListTile(
-          //             title: Text(snapshot.data[i].totalAmount.toString()),
-          //             subtitle: Text(snapshot.data[i].donatedAt),
-          //           );
-          //         }
-          //       }
-          //       return Center();
-          //     })
         ],
+      ),
+      floatingActionButton: FabCircularMenu(
+        children: <Widget>[
+          IconButton(icon: Icon(Icons.home), onPressed: () {
+            print('Home');
+          }),
+          IconButton(icon: Icon(Icons.favorite), onPressed: () {
+            print('Favorite');
+          })
+        ],
+        animationCurve: Curves.bounceInOut,
+
       ),
     );
   }
