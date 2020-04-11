@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boom_menu/flutter_boom_menu.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -11,6 +11,7 @@ import 'model/donations.dart';
 
 class HomePage extends StatelessWidget {
   final formatter = new NumberFormat("#,###");
+  bool scrollVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,8 @@ class HomePage extends StatelessWidget {
                                 children: <Widget>[
                                   ListTile(
                                     trailing:
-                                        Icon(Icons.monetization_on, size: 25),
+                                        Icon(Icons.monetization_on, size: 25,
+                                          color: Colors.red,),
                                     title: Align(
                                       child: Text("عدد التبرعات اليوم   "),
                                       alignment: Alignment.topRight,
@@ -107,7 +109,8 @@ class HomePage extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ListTile(
-                                    trailing: Icon(Icons.person_add, size: 25),
+                                    trailing: Icon(Icons.person_add,size: 25,
+                                      color: Colors.black,),
                                     title: Align(
                                       child: Text("اخر تبرع"),
                                       alignment: Alignment.topRight,
@@ -115,6 +118,31 @@ class HomePage extends StatelessWidget {
                                     subtitle: Align(
                                       child: Text(
                                         '${snapshot.data.lastDonation}   ',
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      alignment: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Card(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  ListTile(
+                                    trailing: Icon(Icons.supervised_user_circle, size: 25,
+                                      color: Colors.blue,),
+                                    title: Align(
+                                      child: Text("  مجموع المتبرعين   "),
+                                      alignment: Alignment.topRight,
+                                    ),
+                                    subtitle: Align(
+                                      child: Text(
+                                        '${snapshot.data.totalDonators}   ',
                                         style: TextStyle(
                                             color: Colors.green,
                                             fontSize: 15.0,
@@ -172,20 +200,44 @@ class HomePage extends StatelessWidget {
                       )
                     : Center(child: CircularProgressIndicator());
               }),
-        ],
-      ),
-      floatingActionButton: FabCircularMenu(
-        children: <Widget>[
-          IconButton(icon: Icon(Icons.home), onPressed: () {
-            print('Home');
-          }),
-          IconButton(icon: Icon(Icons.favorite), onPressed: () {
-            print('Favorite');
-          })
-        ],
-        animationCurve: Curves.bounceInOut,
 
+        ],
       ),
+      floatingActionButton: buildBoomMenu(),
+    );
+  }
+
+  BoomMenu buildBoomMenu() {
+    return BoomMenu(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: IconThemeData(size: 22.0),
+        //child: Icon(Icons.add),
+        onOpen: () => print('OPENING DIAL'),
+        onClose: () => print('DIAL CLOSED'),
+        scrollVisible: scrollVisible,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.7,
+        children: [
+          MenuItem(
+          child: Icon(Icons.sd_card, color: Colors.black, size: 40,),
+//            child: Image.asset('images/download.png', color: Colors.white),
+            title: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+"رصيد",
+            titleColor: Colors.grey[850],
+            subtitle: "\t\t\t\t\t\t\t\t"+ " التبرع لحساب القومة للسودان عبر ",
+            subTitleColor: Colors.grey[850],
+            backgroundColor: Colors.grey[50],
+            onTap: () => launch("tel:" + Uri.encodeComponent('*19#'))
+          ),
+          MenuItem(
+            child: Icon(Icons.atm, color: Colors.black, size: 40,),
+            title: "\t\t\t\t\t\t\t\t"+"تطبيقات البنوك",
+            titleColor: Colors.white,
+            subtitle: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+" عبر رقم الحساب 2019",
+            subTitleColor: Colors.white,
+            backgroundColor: Colors.green,
+            onTap: () => print('FOURTH CHILD'),
+          ),
+        ]
     );
   }
 

@@ -28,7 +28,8 @@ dependencies:
   rxdart: ^0.23.1
   intl: ^0.16.1
   google_fonts: ^0.3.10
-  fab_circular_menu: ^1.0.0
+  flutter_boom_menu: ^1.0.2
+  carousel_slider: ^1.4.1
 
 dev_dependencies:
   flutter_test:

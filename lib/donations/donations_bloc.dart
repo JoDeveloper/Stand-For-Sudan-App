@@ -28,7 +28,7 @@ class DonationBloc {
 
   Future<void> loadDonations() async {
     changeDonations(await _donationService.getDonations());
-    // changeDonationsList(await _donationService.getDonationsList());
-    print("1");
+     changeDonationsList(await _donationService.getDonationsList());
+//    print("1");
   }
 }
