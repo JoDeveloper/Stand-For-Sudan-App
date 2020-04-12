@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:stand_for_sudan/donations/donations_bloc.dart';
 import 'package:stand_for_sudan/model/donation_list.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -45,6 +46,8 @@ class HomePage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
             ),
           ),
+          // ignore: unrelated_type_equality_checks
+          bloc.status == Status.isLoading ? CircularProgressIndicator() : Center(),
           StreamBuilder<Donations>(
               stream: bloc.donations,
               builder: (context, snapshot) {
@@ -167,36 +170,41 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                       )
-                    : Center(child: CircularProgressIndicator());
+                    : Center();
               }),
           StreamBuilder<List<DonationList>>(
             stream: bloc.donationsList,
-            builder: (context, donations) => CarouselSlider(
-              viewportFraction: 0.9,
-              aspectRatio: 2.0,
-              autoPlay: true,
-              enlargeCenterPage: true,
-              items: donations.data.map(
-                (donation) {
-                  return Container(
-                    margin: EdgeInsets.all(5.0),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: ListTile(
-                          leading: Icon(Icons.attach_money,
-                              size: 50, color: Colors.green),
-                          title: Text("${formatter.format(donation.donation)}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.green)),
-                          subtitle: Text(donation.donatedAt),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ).toList(),
-            ),
+            builder: (context, donations) {
+              return donations.hasData
+                  ? CarouselSlider(
+                      viewportFraction: 0.9,
+                      aspectRatio: 2.0,
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      items: donations.data.map(
+                        (donation) {
+                          return Container(
+                            margin: EdgeInsets.all(5.0),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: ListTile(
+                                  leading: Icon(Icons.attach_money,
+                                      size: 50, color: Colors.green),
+                                  title: Text(
+                                      "${formatter.format(donation.donation)}",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.green)),
+                                  subtitle: Text(donation.donatedAt),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    )
+                  : Center();
+            },
           ),
           Center(
               child: Container(
