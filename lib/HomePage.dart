@@ -173,7 +173,7 @@ class HomePage extends StatelessWidget {
           StreamBuilder<List<DonationList>>(
             stream: bloc.donationsList,
             builder: (context, donations) {
-              return donations.hasData
+              return (donations.hasData && donations.data != null)
                   ? CarouselSlider(
                       viewportFraction: 0.9,
                       aspectRatio: 2.0,
@@ -182,7 +182,7 @@ class HomePage extends StatelessWidget {
                       items: donations.data.map(
                         (donation) {
                           return Container(
-                            margin: EdgeInsets.all(5.0),
+//                            margin: EdgeInsets.all(5.0),
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 20.0),
