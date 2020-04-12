@@ -46,8 +46,6 @@ class HomePage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
             ),
           ),
-          // ignore: unrelated_type_equality_checks
-          bloc.status == Status.isLoading ? CircularProgressIndicator() : Center(),
           StreamBuilder<Donations>(
               stream: bloc.donations,
               builder: (context, snapshot) {
