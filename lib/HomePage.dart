@@ -1,9 +1,12 @@
 import 'dart:ui';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boom_menu/flutter_boom_menu.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:stand_for_sudan/model/donation_list.dart';
+import 'package:unicorndial/unicorndial.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'donations/donations_provider.dart';
@@ -11,7 +14,7 @@ import 'model/donations.dart';
 
 class HomePage extends StatelessWidget {
   final formatter = new NumberFormat("#,###");
-  bool scrollVisible = true;
+  final bool scrollVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,6 @@ class HomePage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.all(0.0),
             child: Image.asset(
               "images/standFoSudan.gif",
               height: MediaQuery.of(context).size.height / 2.5,
@@ -83,9 +85,11 @@ class HomePage extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ListTile(
-                                    trailing:
-                                        Icon(Icons.monetization_on, size: 25,
-                                          color: Colors.red,),
+                                    trailing: Icon(
+                                      Icons.monetization_on,
+                                      size: 25,
+                                      color: Colors.red,
+                                    ),
                                     title: Align(
                                       child: Text("عدد التبرعات اليوم   "),
                                       alignment: Alignment.topRight,
@@ -109,8 +113,11 @@ class HomePage extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ListTile(
-                                    trailing: Icon(Icons.person_add,size: 25,
-                                      color: Colors.black,),
+                                    trailing: Icon(
+                                      Icons.person_add,
+                                      size: 25,
+                                      color: Colors.black,
+                                    ),
                                     title: Align(
                                       child: Text("اخر تبرع"),
                                       alignment: Alignment.topRight,
@@ -134,15 +141,18 @@ class HomePage extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ListTile(
-                                    trailing: Icon(Icons.supervised_user_circle, size: 25,
-                                      color: Colors.blue,),
+                                    trailing: Icon(
+                                      Icons.supervised_user_circle,
+                                      size: 25,
+                                      color: Colors.blue,
+                                    ),
                                     title: Align(
                                       child: Text("  مجموع المتبرعين   "),
                                       alignment: Alignment.topRight,
                                     ),
                                     subtitle: Align(
                                       child: Text(
-                                        '${snapshot.data.totalDonators}   ',
+                                        '${formatter.format(snapshot.data.totalDonators)}   ',
                                         style: TextStyle(
                                             color: Colors.green,
                                             fontSize: 15.0,
@@ -154,94 +164,131 @@ class HomePage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Center(
-                                child: Container(
-                              margin: const EdgeInsets.only(top: 60.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text("Developed with "),
-                                  Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  ),
-                                  Text(" By"),
-                                  InkWell(
-                                    child: Text(
-                                      "  Joseph ",
-                                      style: TextStyle(
-                                        color: Colors.lightBlue,
-                                      ),
-                                    ),
-                                    onTap: _launchURL,
-                                  ),
-                                ],
-                              ),
-                            )),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text("Freedom ",
-                                      style: TextStyle(color: Colors.red)),
-                                  Text("Peace ",
-                                      style: TextStyle(color: Colors.green)),
-                                  Text("Justice ",
-                                      style: TextStyle(color: Colors.black)),
-                                  Text("✌️"),
-                                ],
-                              ),
-                            )
                           ],
                         ),
                       )
                     : Center(child: CircularProgressIndicator());
               }),
-
+          StreamBuilder<List<DonationList>>(
+            stream: bloc.donationsList,
+            builder: (context, donations) => CarouselSlider(
+              viewportFraction: 0.9,
+              aspectRatio: 2.0,
+              autoPlay: true,
+              enlargeCenterPage: true,
+              items: donations.data.map(
+                (donation) {
+                  return Container(
+                    margin: EdgeInsets.all(5.0),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: ListTile(
+                          leading: Icon(Icons.attach_money, size: 50,color: Colors.green),
+                          title: Text("${formatter.format(donation.donation)}",style: TextStyle(fontSize: 20,color: Colors.green)),
+                          subtitle: Text(donation.donatedAt),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ).toList(),
+            ),
+          ),
+          Center(
+              child: Container(
+            margin: const EdgeInsets.only(top: 5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Developed with "),
+                Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
+                Text(" By"),
+                InkWell(
+                  child: Text(
+                    "  Joseph ",
+                    style: TextStyle(
+                      color: Colors.lightBlue,
+                    ),
+                  ),
+                  onTap: _launchURL,
+                ),
+              ],
+            ),
+          )),
+          SizedBox(
+            height: 10.0,
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Freedom ", style: TextStyle(color: Colors.red)),
+                Text("Peace ", style: TextStyle(color: Colors.green)),
+                Text("Justice ", style: TextStyle(color: Colors.black)),
+                Text("✌️"),
+              ],
+            ),
+          )
         ],
       ),
-      floatingActionButton: buildBoomMenu(),
+      floatingActionButton: UnicornDialer(
+          backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
+          parentButtonBackground: Colors.blue,
+          orientation: UnicornOrientation.VERTICAL,
+          parentButton: Icon(Icons.add),
+          childButtons: [
+            UnicornButton(
+                hasLabel: true,
+                labelText: "الرصيد",
+                currentButton: FloatingActionButton(
+                  backgroundColor: Colors.green,
+                  mini: true,
+                  child: Icon(Icons.phone_iphone),
+                  onPressed: () {
+                    launch("tel:" + Uri.encodeComponent('*19#'));
+                  },
+                )),
+            UnicornButton(
+                hasLabel: true,
+                labelText: "تطبيقات البنوك",
+                currentButton: FloatingActionButton(
+                    backgroundColor: Colors.redAccent,
+                    mini: true,
+                    child: Icon(Icons.monetization_on),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return showAlert(context);
+                        },
+                      );
+                    }))
+          ]),
     );
   }
 
-  BoomMenu buildBoomMenu() {
-    return BoomMenu(
-        animatedIcon: AnimatedIcons.menu_close,
-        animatedIconTheme: IconThemeData(size: 22.0),
-        //child: Icon(Icons.add),
-        onOpen: () => print('OPENING DIAL'),
-        onClose: () => print('DIAL CLOSED'),
-        scrollVisible: scrollVisible,
-        overlayColor: Colors.black,
-        overlayOpacity: 0.7,
-        children: [
-          MenuItem(
-          child: Icon(Icons.sd_card, color: Colors.black, size: 40,),
-//            child: Image.asset('images/download.png', color: Colors.white),
-            title: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+"رصيد",
-            titleColor: Colors.grey[850],
-            subtitle: "\t\t\t\t\t\t\t\t"+ " التبرع لحساب القومة للسودان عبر ",
-            subTitleColor: Colors.grey[850],
-            backgroundColor: Colors.grey[50],
-            onTap: () => launch("tel:" + Uri.encodeComponent('*19#'))
-          ),
-          MenuItem(
-            child: Icon(Icons.atm, color: Colors.black, size: 40,),
-            title: "\t\t\t\t\t\t\t\t"+"تطبيقات البنوك",
-            titleColor: Colors.white,
-            subtitle: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+" عبر رقم الحساب 2019",
-            subTitleColor: Colors.white,
-            backgroundColor: Colors.green,
-            onTap: () => print('FOURTH CHILD'),
-          ),
-        ]
+  AlertDialog showAlert(BuildContext context){
+     return AlertDialog(
+      title: Align(
+        alignment: Alignment.center,
+        child: Text("تطبيقات البنوك"),
+      ),
+      content: Text("عن طريق رقم الحساب 2019"),
+      actions: [
+        FlatButton(
+            child: Text("ظاابط"),
+            onPressed: (){
+              Navigator.of(context).pop();
+            }
+        ),
+      ],
     );
   }
-
-  _launchURL() async {
+  void _launchURL() async {
     const url = 'fb://profile/jodeveloper8';
     if (await canLaunch(url)) {
       await launch(url);
