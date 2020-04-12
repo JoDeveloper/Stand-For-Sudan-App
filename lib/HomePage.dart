@@ -184,8 +184,11 @@ class HomePage extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: ListTile(
-                          leading: Icon(Icons.attach_money, size: 50,color: Colors.green),
-                          title: Text("${formatter.format(donation.donation)}",style: TextStyle(fontSize: 20,color: Colors.green)),
+                          leading: Icon(Icons.attach_money,
+                              size: 50, color: Colors.green),
+                          title: Text("${formatter.format(donation.donation)}",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.green)),
                           subtitle: Text(donation.donatedAt),
                         ),
                       ),
@@ -271,8 +274,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  AlertDialog showAlert(BuildContext context){
-     return AlertDialog(
+  AlertDialog showAlert(BuildContext context) {
+    return AlertDialog(
       title: Align(
         alignment: Alignment.center,
         child: Text("تطبيقات البنوك"),
@@ -281,13 +284,13 @@ class HomePage extends StatelessWidget {
       actions: [
         FlatButton(
             child: Text("ظاابط"),
-            onPressed: (){
+            onPressed: () {
               Navigator.of(context).pop();
-            }
-        ),
+            }),
       ],
     );
   }
+
   void _launchURL() async {
     const url = 'fb://profile/jodeveloper8';
     if (await canLaunch(url)) {
