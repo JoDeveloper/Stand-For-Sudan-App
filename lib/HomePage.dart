@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:stand_for_sudan/donations/donations_bloc.dart';
 import 'package:stand_for_sudan/model/donation_list.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
                                     trailing: Icon(
                                       Icons.local_atm,
                                       size: 25,
-                                      color: Colors.green,
+                                      color: Colors.blue,
                                     ),
                                     title: Align(
                                       child: Text("جملة التبرعات   "),
@@ -89,7 +89,7 @@ class HomePage extends StatelessWidget {
                                     trailing: Icon(
                                       Icons.monetization_on,
                                       size: 25,
-                                      color: Colors.red,
+                                      color: Colors.blue,
                                     ),
                                     title: Align(
                                       child: Text("عدد التبرعات اليوم   "),
@@ -117,7 +117,7 @@ class HomePage extends StatelessWidget {
                                     trailing: Icon(
                                       Icons.person_add,
                                       size: 25,
-                                      color: Colors.black,
+                                      color: Colors.blue,
                                     ),
                                     title: Align(
                                       child: Text("اخر تبرع"),
@@ -170,6 +170,14 @@ class HomePage extends StatelessWidget {
                       )
                     : Center();
               }),
+          Center(
+            child: Container(
+              margin: EdgeInsets.only(top:25.0),
+              height: 50.0,
+              width: 80.0,
+              child: Text("آخر التبرعات",style: TextStyle(fontSize: 16.0),),
+            ),
+          ),
           StreamBuilder<List<DonationList>>(
             stream: bloc.donationsList,
             builder: (context, donations) {
@@ -186,17 +194,20 @@ class HomePage extends StatelessWidget {
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 20.0),
-                                child: ListTile(
-                                  leading: Icon(Icons.attach_money,
-                                      size: 50, color: Colors.green),
-                                  title: Text(
-                                      "${formatter.format(donation.donation)}",
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.green)),
-                                  subtitle: Text(donation.donatedAt),
+                                child: Center(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                          "${formatter.format(donation.donation)}" ,
+                                          style: TextStyle(
+                                              fontSize: 25, color: Colors.green)),
+                                      Text(donation.donatedAt,style: TextStyle(fontSize: 12.0,fontFamily: GoogleFonts.arapey().fontFamily),)
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
+
                           );
                         },
                       ).toList(),
@@ -210,7 +221,7 @@ class HomePage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Developed with "),
+                Text("Built with "),
                 Icon(
                   Icons.favorite,
                   color: Colors.red,
